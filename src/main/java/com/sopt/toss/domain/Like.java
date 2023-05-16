@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.function.Supplier;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,15 +27,17 @@ public class Like {
     private boolean isLike;
 
     @Builder
-    public Like(Product product, User user) {
+    public Like(Product product, User user, boolean isLike) {
         this.product = product;
         this.user = user;
+        this.isLike = isLike;
     }
 
     public static Like toEntity(User user, Product product) {
         return Like.builder()
                 .product(product)
                 .user(user)
+                .isLike(true)
                 .build();
     }
 

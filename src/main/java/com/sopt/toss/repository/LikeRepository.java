@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface LikeRepository extends Repository<Like, Long> {
     Optional<Like> findByUserAndProduct(User user, Product product);
+
+    void save(Like like);
 }

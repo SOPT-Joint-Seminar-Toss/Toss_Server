@@ -2,7 +2,9 @@ package com.sopt.toss.domain;
 
 import javax.persistence.*;
 
+import com.sopt.toss.controller.product.dto.request.PresentReqDto;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,5 +30,23 @@ public class Present {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CardType cardType;
+
+
+    @Builder
+    public Present(Product product, User user, String content, CardType cardType) {
+        this.product = product;
+        this.user = user;
+        this.content = content;
+        this.cardType = cardType;
+    }
+
+    public static Present toEntity(User user, Product product, PresentReqDto request) {
+        return Present.builder()
+                .product(product)
+                .user(user)
+                .content(request.getContent())
+                .cardType(CardType.valueOf(request.getCardType()))
+                .build();
+    }
 
 }

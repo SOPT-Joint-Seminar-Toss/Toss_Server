@@ -16,13 +16,13 @@ public class ProductResDto {
     private int price;
     private LocalDateTime endDate;
 
-    public static ProductResDto toDto(Product product, GroupBuying groupBuying) {
+    public static ProductResDto toDto(GroupBuying groupBuying) {
         return new ProductResDto(
-                product.getId(),
-                product.getImageUrl(),
-                product.getProductTitle(),
+                groupBuying.getProduct().getId(),
+                groupBuying.getProduct().getImageUrl(),
+                groupBuying.getProduct().getProductTitle(),
                 groupBuying.getDiscountRate(),
-                (product.getPrice() * groupBuying.getDiscountRate()) / 100,
+                (groupBuying.getProduct().getPrice() * groupBuying.getDiscountRate()) / 100,
                 groupBuying.getEndDate()
         );
     }

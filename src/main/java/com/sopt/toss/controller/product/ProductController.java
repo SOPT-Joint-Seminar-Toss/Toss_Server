@@ -4,6 +4,7 @@ import com.sopt.toss.common.dto.ApiResponse;
 import com.sopt.toss.controller.product.dto.response.BrandConDetailDto;
 import com.sopt.toss.controller.product.dto.response.BrandConResDto;
 import com.sopt.toss.controller.product.dto.response.ProductResDto;
+import com.sopt.toss.exception.Success;
 import com.sopt.toss.service.ProductService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class ProductController {
 
     @GetMapping
     public ApiResponse<List<ProductResDto>> getProducts() {
-        return null;
+        return ApiResponse.success(Success.PRODUCT_SUCCESS, productService.getProducts());
     }
 
     @GetMapping("/brand")

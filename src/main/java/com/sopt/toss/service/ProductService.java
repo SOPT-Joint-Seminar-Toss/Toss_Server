@@ -48,8 +48,8 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER_EXCEPTION, NOT_FOUND_USER_EXCEPTION.getMessage()));
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_PRODUCT_EXCEPTION, NOT_FOUND_PRODUCT_EXCEPTION.getMessage()));
-        Like like = likeRepository.findByUserAndProduct(user, product);
-        return BrandConDetailDto.toDto(product, like.isLi요ke());
+        Like like = likeRepository.findByUserAndProduct(user, product).orElseGet(() -> Like.toEntity(user, product));
+        return BrandConDetailDto.toDto(product, like.isLike());
     }
 
     public void patchBrandConLike(long userId, Long productId) {

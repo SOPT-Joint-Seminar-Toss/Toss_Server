@@ -24,5 +24,8 @@ public class Asset {
     private User user;
 
     @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private int balance;
 }

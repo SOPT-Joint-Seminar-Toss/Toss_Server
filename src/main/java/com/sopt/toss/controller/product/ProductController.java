@@ -21,14 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
 
+    /**
+     * [GET] 공동 구매
+     */
     @GetMapping
     public ApiResponse<List<ProductResDto>> getProducts() {
         return ApiResponse.success(Success.PRODUCT_SUCCESS, productService.getProducts());
     }
 
+    /**
+     * [GET] 브랜드콘
+     */
     @GetMapping("/brand")
     public ApiResponse<List<BrandConResDto>> getBrandCons() {
-        return null;
+        return ApiResponse.success(Success.PRODUCT_SUCCESS, productService.getBrandCons());
     }
 
     @GetMapping("/brand/{productId}")

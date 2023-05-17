@@ -59,11 +59,9 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER_EXCEPTION, NOT_FOUND_USER_EXCEPTION.getMessage()));
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_PRODUCT_EXCEPTION, NOT_FOUND_PRODUCT_EXCEPTION.getMessage()));
-        Like like;
-        like = likeRepository.findByUserAndProduct(user, product).orElse(null);
-        // 좋아요 없다면 생성, 있다면 좋아요 <-> 좋아요 취소
-        if(like == null) like = Like.toEntity(user, product);
-        else like.setLike(!like.isLike());
+        Like like = likeRepository.findByUserAndProduct(user, product).orElseGet(() -> Like.toEntity(user, product));
+        // 좋아요 <-> 좋아요 취소
+        like.setLike(!like.isLike());
         likeRepository.save(like);
     }
 }

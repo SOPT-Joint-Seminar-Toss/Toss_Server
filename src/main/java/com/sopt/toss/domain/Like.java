@@ -28,7 +28,7 @@ public class Like {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private boolean isLike = true;
+    private boolean isLike;
 
     @Builder
     public Like(Product product, User user) {

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Like {
+public class ProductLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,13 +31,13 @@ public class Like {
     private boolean isLike;
 
     @Builder
-    public Like(Product product, User user) {
+    public ProductLike(Product product, User user) {
         this.product = product;
         this.user = user;
     }
 
-    public static Like toEntity(User user, Product product) {
-        return Like.builder()
+    public static ProductLike toEntity(User user, Product product) {
+        return ProductLike.builder()
                 .product(product)
                 .user(user)
                 .build();

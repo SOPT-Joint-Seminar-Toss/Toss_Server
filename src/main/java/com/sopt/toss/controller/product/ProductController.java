@@ -1,6 +1,7 @@
 package com.sopt.toss.controller.product;
 
 import com.sopt.toss.common.dto.ApiResponse;
+import com.sopt.toss.controller.product.dto.request.PresentReqDto;
 import com.sopt.toss.controller.product.dto.response.BrandConDetailDto;
 import com.sopt.toss.controller.product.dto.response.BrandConResDto;
 import com.sopt.toss.controller.product.dto.response.ProductResDto;
@@ -9,12 +10,7 @@ import com.sopt.toss.service.ProductService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.sopt.toss.common.Constant.Constant.AUTHORIZATION;
 
@@ -59,10 +55,17 @@ public class ProductController {
         return null;
     }
 
+    /**
+     * [POST] 브랜드콘 좋아요
+     */
     @PostMapping("/brand/present/{productId}")
     public ApiResponse postPresentProduct(
-            @PathVariable String productId
+            @PathVariable Long productId,
+            @RequestBody PresentReqDto presentReqDto,
+            HttpServletRequest request
     ) {
-        return null;
+        long userId = Long.parseLong(request.getHeader(AUTHORIZATION));
+        productService.postPresentProduct(userId, productId, presentReqDto);
+        return ApiResponse.success(Success.PRESENT_SUCCESS);
     }
 }

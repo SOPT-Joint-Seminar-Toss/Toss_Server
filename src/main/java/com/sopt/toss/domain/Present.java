@@ -1,14 +1,10 @@
 package com.sopt.toss.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+
+import com.sopt.toss.controller.product.dto.request.PresentReqDto;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,6 +27,26 @@ public class Present {
     @Column(nullable = false)
     private String content;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String cardType;
+    private CardType cardType;
+
+
+    @Builder
+    public Present(Product product, User user, String content, CardType cardType) {
+        this.product = product;
+        this.user = user;
+        this.content = content;
+        this.cardType = cardType;
+    }
+
+    public static Present toEntity(User user, Product product, String cardType, String content) {
+        return Present.builder()
+                .product(product)
+                .user(user)
+                .content(content)
+                .cardType(CardType.valueOf(cardType))
+                .build();
+    }
+
 }

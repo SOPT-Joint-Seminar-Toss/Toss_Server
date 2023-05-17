@@ -59,6 +59,6 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER_EXCEPTION, NOT_FOUND_USER_EXCEPTION.getMessage()));
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_PRODUCT_EXCEPTION, NOT_FOUND_PRODUCT_EXCEPTION.getMessage()));
-        productRepository.save(Present.toEntity(user, product, request));
+        productRepository.save(Present.toEntity(user, product, request.getCardType(), request.getContent()));
     }
 }

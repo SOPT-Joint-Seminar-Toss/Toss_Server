@@ -40,12 +40,12 @@ public class Present {
         this.cardType = cardType;
     }
 
-    public static Present toEntity(User user, Product product, PresentReqDto request) {
+    public static Present toEntity(User user, Product product, String cardType, String content) {
         return Present.builder()
                 .product(product)
                 .user(user)
-                .content(request.getContent())
-                .cardType(CardType.valueOf(request.getCardType()))
+                .content(content)
+                .cardType(CardType.valueOf(cardType))
                 .build();
     }
 

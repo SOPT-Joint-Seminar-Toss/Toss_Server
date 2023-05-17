@@ -15,6 +15,7 @@ import com.sopt.toss.repository.ProductRepository;
 import com.sopt.toss.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,8 +50,25 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER_EXCEPTION, NOT_FOUND_USER_EXCEPTION.getMessage()));
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_PRODUCT_EXCEPTION, NOT_FOUND_PRODUCT_EXCEPTION.getMessage()));
-        Like like = likeRepository.findByUserAndProduct(user, product);
-        return BrandConDetailDto.toDto(product, like.isLike());
+        Like like = likeRepository.findByUserAndProduct(user, product).orElse(null);
+        boolean isLike = like != null && like.isLike();
+        return BrandConDetailDto.toDto(product, isLike);
+    }
+
+    @Transactional
+    public void patchBrandConLike(long userId, Long productId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER_EXCEPTION, NOT_FOUND_USER_EXCEPTION.getMessage()));
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_PRODUCT_EXCEPTION, NOT_FOUND_PRODUCT_EXCEPTION.getMessage()));
+        Like like = likeRepository.findByUserAndProduct(user, product)
+                .orElseGet(() -> {
+                    Like newLike = Like.toEntity(user, product);
+                    likeRepository.save(newLike);
+                    return newLike;
+                });
+        // 좋아요 <-> 좋아요 취소
+        like.setLike(!like.isLike());
     }
 
     @Transactional

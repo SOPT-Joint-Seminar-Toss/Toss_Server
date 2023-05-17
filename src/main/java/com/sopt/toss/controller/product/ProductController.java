@@ -48,11 +48,17 @@ public class ProductController {
         return ApiResponse.success(Success.PRODUCT_SUCCESS, productService.getBrandCon(userId, productId));
     }
 
+    /**
+     * [PATCH] 브랜드콘 좋아요
+     */
     @PatchMapping("/brand/{productId}")
     public ApiResponse patchBrandConLike(
-            @PathVariable String productId
+            @PathVariable Long productId,
+            HttpServletRequest request
     ) {
-        return null;
+        long userId = Long.parseLong(request.getHeader(AUTHORIZATION));
+        productService.patchBrandConLike(userId, productId);
+        return ApiResponse.success(Success.PRODUCT_LIKE_SUCCESS);
     }
 
     /**

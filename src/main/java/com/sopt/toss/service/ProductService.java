@@ -4,13 +4,13 @@ import com.sopt.toss.controller.product.dto.request.PresentReqDto;
 import com.sopt.toss.controller.product.dto.response.BrandConDetailDto;
 import com.sopt.toss.controller.product.dto.response.BrandConResDto;
 import com.sopt.toss.controller.product.dto.response.ProductResDto;
-import com.sopt.toss.domain.Like;
+import com.sopt.toss.domain.ProductLike;
 import com.sopt.toss.domain.Present;
 import com.sopt.toss.domain.Product;
 import com.sopt.toss.domain.User;
 import com.sopt.toss.exception.model.NotFoundException;
 import com.sopt.toss.repository.GroupBuyingRepository;
-import com.sopt.toss.repository.LikeRepository;
+import com.sopt.toss.repository.ProductLikeRepository;
 import com.sopt.toss.repository.ProductRepository;
 import com.sopt.toss.repository.UserRepository;
 import java.util.List;
@@ -29,7 +29,7 @@ public class ProductService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final GroupBuyingRepository groupBuyingRepository;
-    private final LikeRepository likeRepository;
+    private final ProductLikeRepository productLikeRepository;
 
     public List<ProductResDto> getProducts() {
         return groupBuyingRepository.findAllBy()
@@ -50,8 +50,8 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER_EXCEPTION, NOT_FOUND_USER_EXCEPTION.getMessage()));
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_PRODUCT_EXCEPTION, NOT_FOUND_PRODUCT_EXCEPTION.getMessage()));
-        Like like = likeRepository.findByUserAndProduct(user, product).orElse(null);
-        boolean isLike = like != null && like.isLike();
+        ProductLike productLike = productLikeRepository.findByUserAndProduct(user, product).orElse(null);
+        boolean isLike = productLike != null && productLike.isLike();
         return BrandConDetailDto.toDto(product, isLike);
     }
 
@@ -61,14 +61,14 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER_EXCEPTION, NOT_FOUND_USER_EXCEPTION.getMessage()));
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_PRODUCT_EXCEPTION, NOT_FOUND_PRODUCT_EXCEPTION.getMessage()));
-        Like like = likeRepository.findByUserAndProduct(user, product)
+        ProductLike productLike = productLikeRepository.findByUserAndProduct(user, product)
                 .orElseGet(() -> {
-                    Like newLike = Like.toEntity(user, product);
-                    likeRepository.save(newLike);
-                    return newLike;
+                    ProductLike newProductLike = ProductLike.toEntity(user, product);
+                    productLikeRepository.save(newProductLike);
+                    return newProductLike;
                 });
         // 좋아요 <-> 좋아요 취소
-        like.setLike(!like.isLike());
+        productLike.setLike(!productLike.isLike());
     }
 
     @Transactional

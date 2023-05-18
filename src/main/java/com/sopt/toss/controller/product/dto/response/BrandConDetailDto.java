@@ -23,7 +23,7 @@ public class BrandConDetailDto {
 
     public static BrandConDetailDto toDto(Product product, boolean isLike) {
         LocalDateTime todayLocalDate = LocalDateTime.now();
-        int days = (int) (Duration.between(product.getExpiration(), todayLocalDate).toHours()/24);
+        int days = (int) (Duration.between(todayLocalDate, product.getExpiration()).toHours() / 24);
         return new BrandConDetailDto(
                 product.getId(),
                 product.getImageUrl(),

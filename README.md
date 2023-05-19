@@ -64,7 +64,7 @@ toss
 <br><br>
 
 ## 🌸 ERD
-![스크린샷 2023-05-19 오전 2 37 51](https://github.com/SOPT-Joint-Seminar-Toss/Toss_Server/assets/90022940/f53299e3-627c-48fa-a382-790c21b37e91)
+<img width="794" alt="스크린샷 2023-05-19 오후 5 37 45" src="https://github.com/SOPT-Joint-Seminar-Toss/Toss_Server/assets/90022940/0a6095a1-359b-42bf-bdd9-7fbda119b32d">
 <br>
 <br>
 

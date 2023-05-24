@@ -1,8 +1,7 @@
 package com.sopt.toss.controller.product.dto.response;
 
 import com.sopt.toss.domain.GroupBuying;
-import com.sopt.toss.domain.Product;
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,7 +13,7 @@ public class ProductResDto {
     private String title;
     private int discountRate;
     private int price;
-    private LocalDateTime endDate;
+    private String endDate;
 
     public static ProductResDto toDto(GroupBuying groupBuying) {
         return new ProductResDto(
@@ -23,7 +22,7 @@ public class ProductResDto {
                 groupBuying.getProduct().getProductTitle(),
                 groupBuying.getDiscountRate(),
                 (groupBuying.getProduct().getPrice() * groupBuying.getDiscountRate()) / 100,
-                groupBuying.getEndDate()
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(groupBuying.getEndDate())
         );
     }
 }
